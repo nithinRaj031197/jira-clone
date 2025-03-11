@@ -7,6 +7,7 @@ import { useOrganization } from "@clerk/nextjs";
 import { deleteProject } from "@/actions/projects";
 import { useRouter } from "next/navigation";
 import useFetch from "@/hooks/use-fetch";
+import { toast } from "sonner";
 
 export default function DeleteProject({ projectId }: { projectId: string }) {
   const { membership } = useOrganization();
@@ -19,6 +20,7 @@ export default function DeleteProject({ projectId }: { projectId: string }) {
   const handleDelete = async () => {
     if (window.confirm("Are you sure you want to delete this project?")) {
       deleteProjectFn(projectId);
+      toast.error("Project Deleted!");
     }
   };
 
@@ -26,14 +28,19 @@ export default function DeleteProject({ projectId }: { projectId: string }) {
     if (deleted) {
       router.refresh();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deleted]);
 
   if (!isAdmin) return null;
 
   return (
     <>
-      <Button variant="ghost" size="sm" className={`${isDeleting ? "animate-pulse" : ""}`} onClick={handleDelete} disabled={isDeleting}>
+      <Button
+        variant="ghost"
+        size="sm"
+        className={`cursor-pointer ${isDeleting ? "animate-pulse" : ""}`}
+        onClick={handleDelete}
+        disabled={isDeleting}
+      >
         <Trash2 className="h-4 w-4" />
       </Button>
       {error && <p className="text-red-500 text-sm">{error.message}</p>}

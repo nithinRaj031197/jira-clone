@@ -10,7 +10,7 @@ export default async function ProjectList({ orgId }: { orgId: string }) {
   if (projects.length === 0) {
     return (
       <p>
-        No projects found.{" "}
+        No projects found.
         <Link className="underline underline-offset-2 text-blue-200" href="/project/create">
           Create New.
         </Link>
